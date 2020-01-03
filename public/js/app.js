@@ -30,9 +30,9 @@ class App extends React.Component {
               </div>
             </div>
             <div className='row'>
-                <div className='col'>
+                <div className='col border my-3 p-3'>
                     <form>
-                        <h3>Bills</h3>
+                        <h3 className='text-center'>Bills</h3>
                         <label>Name</label>
                         <input type='text'/><br/>
                         <label>Amount</label>
@@ -40,9 +40,9 @@ class App extends React.Component {
                         <input type='submit'/>
                     </form>
                 </div>
-                <div className='col'>
+                <div className='col border my-3 p-3'>
                 <form>
-                        <h3>Expenses</h3>
+                        <h3 className='text-center'>Expenses</h3>
                         <label>Name</label>
                         <input type='text'/><br/>
                         <label>Amount</label>
