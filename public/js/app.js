@@ -33,12 +33,12 @@ class Savings extends React.Component {
 
   render() {
     return (
-      <div className='row border p-3' >
-        <div className='col'>
+      <div className='row' >
+        <div className='col border my-3 p-3'>
           <h3>Montly Income</h3>
           <p>$$$$$$$$$$$$$$$</p>
         </div>
-        <div className='col'>
+        <div className='col border my-3 p-3'>
           <h3>Available Money to Save</h3>
           <p>$$$$$$$$$$$$$$$</p>
         </div>
