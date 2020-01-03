@@ -8,13 +8,18 @@ class App extends React.Component {
           <h1>Monthly Budget App</h1>
           <div className='container'>
               <div className='row'>
-              <form>
-                <label>Income</label>
-                <input type='text'></input>
-                <input type='submit'/>
-              </form>
+              <form class="form-inline">
+  <div class="form-group mb-2">
+    
+    <label class="form-control-plaintext">Monthly Income</label>
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="text" class="form-control" id="income-amount" placeholder="amount" />
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
               </div>
-            <div className='row'>
+            <div className='row border p-3'>
               <div className='col'>
                     <h3>Montly Income</h3>
                     <p>$$$$$$$$$$$$$$$</p>
