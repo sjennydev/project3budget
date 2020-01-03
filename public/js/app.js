@@ -111,6 +111,32 @@ class Bills extends React.Component {
     amount: 0,
     isPaid: false
   }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/bills', {
+        body: JSON.stringify({
+            amount: this.state.amount
+        }),
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    }).then(createdBills => {
+        return createdBills.json();
+    }).then(jsonedBills => {
+        this.setState({
+            name: '',
+            amount: '',
+            bills: [jsonedBills, ...this.state.bills]
+        })
+    }).catch(error => console.log(error));
+}
+
   render() {
     return (
       <div className='col'>
@@ -120,13 +146,13 @@ class Bills extends React.Component {
         ****************/}
 
         <div className="border my-3 p-3">
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <h3 className='text-center'>Bills</h3>
               <label>Name</label>
-              <input className="form-control" type='text' /><br />
+              <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
               <label>Amount</label>
-              <input className="form-control" type='text' />
+              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange} />
             </div>
 
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
@@ -171,9 +197,35 @@ class Expenses extends React.Component {
     super(props);
   }
   state = {
+    expenses: [],
     name: '',
     amount: 0
   }
+  handleChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/expenses', {
+        body: JSON.stringify({
+            amount: this.state.amount
+        }),
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    }).then(createdExpenses => {
+        return createdExpenses.json();
+    }).then(jsonedExpenses => {
+        this.setState({
+            name: '',
+            amount: '',
+            expenses: [jsonedExpenses, ...this.state.expenses]
+        })
+    }).catch(error => console.log(error));
+}
+
   render() {
     return (
       <div className='col'>
@@ -182,13 +234,13 @@ class Expenses extends React.Component {
             add Expenses section
         ****************/}
         <div className=' border my-3 p-3'>
-          <form>
-            <div className="form-group">
+          <form  onSubmit={this.handleSubmit}>
+            <div className="form-group" >
               <h3 className='text-center'>Expenses</h3>
               <label>Name</label>
-              <input className="form-control" type='text' /><br />
+              <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
               <label>Amount</label>
-              <input className="form-control" type='text' />
+              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange}/>
             </div>
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
           </form>
