@@ -24,10 +24,13 @@ app.use(express.json())// returns middleware that only parses JSON
 app.use(express.static('public'))
 
 // Routes
-// const budgetController = require('./controllers/budget.js')
-// app.use('/budget', budgetController)
+const billsController = require('./controllers/bills.js')
+app.use('/bills', billsController)
 const incomeController = require('./controllers/income.js');
 app.use('/income', incomeController);
+const expensesController = require('./controllers/expenses.js');
+app.use('/expenses', expensesController);
+
 
 // this will catch any route that doesn't exist
 app.get('*', (req, res) => {
