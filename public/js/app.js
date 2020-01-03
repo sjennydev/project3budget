@@ -24,6 +24,29 @@ class App extends React.Component {
                   <p>$$$$$$$$$$$$$$$</p>
               </div>
             </div>
+            <div className='row'>
+                <div className='col'>
+                    <form>
+                        <h3>Bills</h3>
+                        <label>Name</label>
+                        <input type='text'/><br/>
+                        <label>Amount</label>
+                        <input type='text'/>
+                        <input type='submit'/>
+                    </form>
+                </div>
+                <div className='col'>
+                <form>
+                        <h3>Expenses</h3>
+                        <label>Name</label>
+                        <input type='text'/><br/>
+                        <label>Amount</label>
+                        <input type='text'/>
+                        <input type='submit'/>
+                    </form>
+                </div>
+
+            </div>
           </div>
       </div>
 
