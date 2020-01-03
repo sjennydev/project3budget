@@ -6,62 +6,63 @@ class App extends React.Component {
     return (
       <div>
         <h1 className="text-center">Monthly Budget App</h1>
-        <div className='container-app border'></div>
+        <div className='container-app border'>
 
-        {/* income form and submit */}
-        <div className='row justify-content-center'>
-          <form class="form-inline ">
-            <div class="form-group mb-2">
-              <label class="form-control-plaintext">Monthly Income</label>
-            </div>
+          {/* income form and submit */}
+          <div className='row justify-content-center'>
+            <form class="form-inline ">
+              <div class="form-group mb-2">
+                <label class="form-control-plaintext">Monthly Income</label>
+              </div>
 
-            <div class="form-group mx-sm-3 mb-2">
-              <input type="text" class="form-control" id="income-amount" placeholder="amount" />
-            </div>
-            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-          </form>
-        </div>
-
-        {/* income and savings section display */}
-        <div className='row border p-3'>
-          <div className='col'>
-            <h3>Montly Income</h3>
-            <p>$$$$$$$$$$$$$$$</p>
-          </div>
-          <div className='col'>
-            <h3>Available Money to Save</h3>
-            <p>$$$$$$$$$$$$$$$</p>
-          </div>
-        </div>
-
-        {/* bills form section */}
-        <div className='row'>
-          <div className='col border my-3 p-3'>
-            <form>
-              <h3 className='text-center'>Bills</h3>
-              <label>Name</label>
-              <input type='text' /><br />
-              <label>Amount</label>
-              <input type='text' />
-              <input type='submit' />
+              <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="income-amount" placeholder="amount" />
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
             </form>
+          </div>
+
+          {/* income and savings section display */}
+          <div className='row border p-3'>
+            <div className='col'>
+              <h3>Montly Income</h3>
+              <p>$$$$$$$$$$$$$$$</p>
+            </div>
+            <div className='col'>
+              <h3>Available Money to Save</h3>
+              <p>$$$$$$$$$$$$$$$</p>
+            </div>
           </div>
 
           {/* bills form section */}
-          <div className='col border my-3 p-3'>
-            <form>
-              <h3 className='text-center'>Expenses</h3>
-              <label>Name</label>
-              <input type='text' /><br />
-              <label>Amount</label>
-              <input type='text' />
-              <input type='submit' />
-            </form>
+          <div className='row'>
+            <div className='col border my-3 p-3'>
+              <form>
+                <h3 className='text-center'>Bills</h3>
+                <label>Name</label>
+                <input type='text' /><br />
+                <label>Amount</label>
+                <input type='text' />
+                <input type='submit' />
+              </form>
+            </div>
+
+            {/* bills form section */}
+            <div className='col border my-3 p-3'>
+              <form>
+                <h3 className='text-center'>Expenses</h3>
+                <label>Name</label>
+                <input type='text' /><br />
+                <label>Amount</label>
+                <input type='text' />
+                <input type='submit' />
+              </form>
+            </div>
           </div>
 
           {/* bill data display */}
           <div className='row'>
-            <div className='col'>
+            <div className='col border p-3'>
               <h3>Bill data</h3>
               <table class="table table-striped">
                 <thead>
@@ -84,7 +85,7 @@ class App extends React.Component {
             </div>
 
             {/* expenses data display */}
-            <div className='col'>
+            <div className='col border p-3'>
               <h3>Expenses data</h3>
               <table class="table table-striped">
                 <thead>
@@ -107,6 +108,7 @@ class App extends React.Component {
 
         </div>
       </div>
+
 
 
 
