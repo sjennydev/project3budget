@@ -52,7 +52,10 @@ class Bills extends React.Component {
     return (
       <div className='col'>
 
-        {/* add bill section */}
+        {/* ***************** 
+            add bill section 
+        ****************/}
+
         <div className="border my-3 p-3">
           <form>
             <div className="form-group">
@@ -67,7 +70,11 @@ class Bills extends React.Component {
           </form>
         </div>
 
-        {/*  bill Data display section */}
+
+        {/* ***************** 
+            bill Data display section
+        ****************/}
+
         <div className=' border my-3 p-3'>
           <h3>Bill data</h3>
           <table className="table table-striped">
@@ -105,7 +112,9 @@ class Expenses extends React.Component {
     return (
       <div className='col'>
 
-        {/* add Expenses section */}
+        {/* ***************** 
+            add Expenses section
+        ****************/}
         <div className=' border my-3 p-3'>
           <form>
             <div className="form-group">
@@ -119,7 +128,10 @@ class Expenses extends React.Component {
           </form>
         </div>
 
-        {/* add Expenses section */}
+        {/* ***************** 
+             Expenses data display section
+        ****************/}
+
         <div className=' border p-3'>
           <h3>Expenses data</h3>
           <table class="table table-striped">
