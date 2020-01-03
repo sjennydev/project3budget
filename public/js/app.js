@@ -4,17 +4,22 @@ class Income extends React.Component {
     income: 0
   }
 
+  handleChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+
   render() {
     return (
       <div className='row justify-content-center' >
         <form class="form-inline ">
           <div class="form-group mb-2">
-            <label class="form-control-plaintext">Monthly Income</label>
+            <label htmlFor="income" class="form-control-plaintext">Monthly Income</label>
           </div>
 
           <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" id="income-amount" placeholder="amount" />
+            <input type="text" class="form-control" id="income" placeholder="amount" value={this.state.income} onChange={this.handleChange} />
           </div>
+
           <button type="submit" class="btn btn-primary mb-2">Submit</button>
         </form>
       </div>
@@ -28,12 +33,12 @@ class Savings extends React.Component {
 
   render() {
     return (
-      <div className='row border p-3' >
-        <div className='col'>
+      <div className='row' >
+        <div className='col border my-3 p-3'>
           <h3>Montly Income</h3>
           <p>$$$$$$$$$$$$$$$</p>
         </div>
-        <div className='col'>
+        <div className='col border my-3 p-3'>
           <h3>Available Money to Save</h3>
           <p>$$$$$$$$$$$$$$$</p>
         </div>
