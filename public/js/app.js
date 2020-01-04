@@ -107,10 +107,59 @@ class Savings extends React.Component {
 
 class Bills extends React.Component {
   state = {
+    bills: [],
     name: '',
-    amount: 0,
+    amount: '',
     isPaid: false
   }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/bills', {
+        body: JSON.stringify({
+            amount: this.state.amount,
+            name: this.state.name
+        }),
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    }).then(createdBills => {
+        return createdBills.json();
+    }).then(jsonedBills => {
+        this.setState({
+            name: '',
+            amount: '',
+            bills: [jsonedBills, ...this.state.bills]
+        })
+    }).catch(error => console.log(error));
+}
+componentDidMount() {
+  fetch('/bills')
+      .then(response => response.json())
+      .then(bills =>
+          this.setState({
+              bills: bills
+          })
+      );
+}
+deleteBill = (id, index) => {
+  fetch('bills/' + id, {
+      method: "DELETE"
+  }).then(data => {
+      this.setState({
+          bills: [
+              ...this.state.bills.slice(0, index),
+              ...this.state.bills.slice(index + 1)
+          ]
+      })
+  })
+}
+
   render() {
     return (
       <div className='col'>
@@ -120,13 +169,13 @@ class Bills extends React.Component {
         ****************/}
 
         <div className="border my-3 p-3">
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <h3 className='text-center'>Bills</h3>
               <label>Name</label>
-              <input className="form-control" type='text' /><br />
+              <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
               <label>Amount</label>
-              <input className="form-control" type='text' />
+              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange} />
             </div>
 
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
@@ -150,12 +199,16 @@ class Bills extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Tmobile</th>
-                <td>$120</td>
-                <td>Paid</td>
-                <td><button>DELETE</button></td>
-              </tr>
+            {this.state.bills.map((item,index) => {
+                return (
+                    <tr>
+                        <td> {item.name} </td>
+                        <td>{item.amount}</td>
+                        <td>Paid</td>
+                        <td><button onClick={() => this.deleteBill(item._id, index)}>DELETE</button></td>
+                    </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -171,9 +224,57 @@ class Expenses extends React.Component {
     super(props);
   }
   state = {
+    expenses: [],
     name: '',
-    amount: 0
+    amount: ''
   }
+  handleChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/expenses', {
+        body: JSON.stringify({
+            amount: this.state.amount, 
+            name: this.state.name
+        }),
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    }).then(createdExpenses => {
+        return createdExpenses.json();
+    }).then(jsonedExpenses => {
+        this.setState({
+            name: '',
+            amount: '',
+            expenses: [jsonedExpenses, ...this.state.expenses]
+        })
+    }).catch(error => console.log(error));
+}
+componentDidMount() {
+  fetch('/expenses')
+      .then(response => response.json())
+      .then(expenses =>
+          this.setState({
+              expenses: expenses
+          })
+      );
+}
+deleteExpense = (id, index) => {
+  fetch('expenses/' + id, {
+      method: "DELETE"
+  }).then(data => {
+      this.setState({
+          expenses: [
+              ...this.state.expenses.slice(0, index),
+              ...this.state.expenses.slice(index + 1)
+          ]
+      })
+  })
+}
+
   render() {
     return (
       <div className='col'>
@@ -182,16 +283,20 @@ class Expenses extends React.Component {
             add Expenses section
         ****************/}
         <div className=' border my-3 p-3'>
-          <form>
-            <div className="form-group">
+          <form  onSubmit={this.handleSubmit}>
+            <div className="form-group" >
               <h3 className='text-center'>Expenses</h3>
               <label>Name</label>
-              <input className="form-control" type='text' /><br />
+              <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
               <label>Amount</label>
-              <input className="form-control" type='text' />
+              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange}/>
+
             </div>
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
           </form>
+          {/* {
+            this.state.name
+          } */}
         </div>
 
         {/* ***************** 
@@ -209,11 +314,15 @@ class Expenses extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Tmobile</th>
-                <td>$120</td>
-                <td><button>DELETE</button></td>
-              </tr>
+              {this.state.expenses.map((item,index) => {
+                return (
+                    <tr>
+                        <td> {item.name} </td>
+                        <td>{item.amount}</td>
+                        <td><button onClick={() => this.deleteExpense(item._id, index)}>DELETE</button></td>
+                    </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
