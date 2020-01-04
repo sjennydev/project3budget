@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Bills = require('../models/bills.js');
-const Expenses = require('../models/expenses.js');
+
 
 router.get('/', (req, res) =>{
     Bills.find({}, (err, foundBills) => {
@@ -10,14 +10,14 @@ router.get('/', (req, res) =>{
 });
 
 router.delete('/:id', (req, res) => {
-    Bills.findByIdAndRemove(req.params.id, (err, deletedBills) => {
-        res.json(deletedBills);
+    Bills.findByIdAndRemove(req.params.id, (err, deletedBill) => {
+        res.json(deletedBill);
     })
 })
 
 router.post('/', (req, res) => {
-    Bills.create(req.body, (err, createdBills) => {
-        res.json(createdBlog);
+    Bills.create(req.body, (err, createdBill) => {
+        res.json(createdBill);
     });
 })
 
