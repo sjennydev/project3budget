@@ -205,7 +205,7 @@ deleteBill = (id, index) => {
                         <td> {item.name} </td>
                         <td>{item.amount}</td>
                         <td>Paid</td>
-                        <td><button onClick={() => this.deleteBill(amount._id, index, name)}>DELETE</button></td>
+                        <td><button onClick={() => this.deleteBill(item._id, index)}>DELETE</button></td>
                     </tr>
                 )
               })}
@@ -319,7 +319,7 @@ deleteExpense = (id, index) => {
                     <tr>
                         <td> {item.name} </td>
                         <td>{item.amount}</td>
-                        <td><button onClick={() => this.deleteExpense(amount._id, index, name)}>DELETE</button></td>
+                        <td><button onClick={() => this.deleteExpense(item._id, index)}>DELETE</button></td>
                     </tr>
                 )
               })}
