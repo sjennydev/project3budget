@@ -1,11 +1,9 @@
-// const { HashRouter, NavLink, Route } = ReactRouterDOM;
 class Income extends React.Component {
   state = {
     income: [],
     amount: ''
   }
-
-
+ 
   handleChange = (event) => {
     this.setState({ [event.target.id]: event.target.value })
   }
@@ -43,7 +41,7 @@ class Income extends React.Component {
 
           <button type="submit" class="btn btn-primary mb-2">Submit</button>
         </form>
-     
+        {this.state.amount}
         
       </div>
     )
@@ -57,7 +55,8 @@ class Savings extends React.Component {
   // }
   state = {
     income: [],
-    amount: ''
+    amount: '',
+    editMode: false
   };
     componentDidMount() {
     fetch('/income')
@@ -80,8 +79,13 @@ class Savings extends React.Component {
         })
     })
   }
+  // editAmount = () => {
+  //   this.setState({
+  //     editMode: !this.state.editMode
+  //   })
+  //  }
   render() {
-    return (
+    return ( 
       <div className='row' >
         <div className='col border my-3 p-3'>
           <h3>Monthly Income</h3>
@@ -98,7 +102,7 @@ class Savings extends React.Component {
         </div>
         <div className='col border my-3 p-3'>
           <h3>Amount Left to Budget</h3>
-          <p>income - (expense.amount + bill.amount)</p>
+          <p>{this.props.income}</p>
         </div>
       </div>
     )
@@ -238,8 +242,8 @@ class App extends React.Component {
           <Income income={this.state.income}/>
           <Savings income={this.state.income}/>
           <div className='row'>
-            <Bills income={this.state.income} />
-            <Expenses income={this.state.income}/>
+            <Bills  />
+            <Expenses/>
           </div>
 
         </div>
@@ -248,4 +252,6 @@ class App extends React.Component {
   }
 }
 ReactDOM.render(<App />, document.querySelector('.container'));
+
+
 
