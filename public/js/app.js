@@ -107,8 +107,9 @@ class Savings extends React.Component {
 
 class Bills extends React.Component {
   state = {
+    bills: [],
     name: '',
-    amount: 0,
+    amount: '',
     isPaid: false
   }
 
@@ -119,7 +120,8 @@ class Bills extends React.Component {
     event.preventDefault()
     fetch('/bills', {
         body: JSON.stringify({
-            amount: this.state.amount
+            amount: this.state.amount,
+            name: this.state.name
         }),
         method: 'POST',
         headers: {
@@ -135,6 +137,27 @@ class Bills extends React.Component {
             bills: [jsonedBills, ...this.state.bills]
         })
     }).catch(error => console.log(error));
+}
+componentDidMount() {
+  fetch('/bills')
+      .then(response => response.json())
+      .then(bills =>
+          this.setState({
+              bills: bills
+          })
+      );
+}
+deleteBill = (id, index) => {
+  fetch('bills/' + id, {
+      method: "DELETE"
+  }).then(data => {
+      this.setState({
+          bills: [
+              ...this.state.bills.slice(0, index),
+              ...this.state.bills.slice(index + 1)
+          ]
+      })
+  })
 }
 
   render() {
@@ -176,12 +199,16 @@ class Bills extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Tmobile</th>
-                <td>$120</td>
-                <td>Paid</td>
-                <td><button>DELETE</button></td>
-              </tr>
+            {this.state.bills.map((item,index) => {
+                return (
+                    <tr>
+                        <td> {item.name} </td>
+                        <td>{item.amount}</td>
+                        <td>Paid</td>
+                        <td><button onClick={() => this.deleteBill(amount._id, index, name)}>DELETE</button></td>
+                    </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -199,7 +226,7 @@ class Expenses extends React.Component {
   state = {
     expenses: [],
     name: '',
-    amount: 0
+    amount: ''
   }
   handleChange = (event) => {
     this.setState({ [event.target.id]: event.target.value })
@@ -208,7 +235,8 @@ class Expenses extends React.Component {
     event.preventDefault()
     fetch('/expenses', {
         body: JSON.stringify({
-            amount: this.state.amount
+            amount: this.state.amount, 
+            name: this.state.name
         }),
         method: 'POST',
         headers: {
@@ -224,6 +252,27 @@ class Expenses extends React.Component {
             expenses: [jsonedExpenses, ...this.state.expenses]
         })
     }).catch(error => console.log(error));
+}
+componentDidMount() {
+  fetch('/expenses')
+      .then(response => response.json())
+      .then(expenses =>
+          this.setState({
+              expenses: expenses
+          })
+      );
+}
+deleteExpense = (id, index) => {
+  fetch('expenses/' + id, {
+      method: "DELETE"
+  }).then(data => {
+      this.setState({
+          expenses: [
+              ...this.state.expenses.slice(0, index),
+              ...this.state.expenses.slice(index + 1)
+          ]
+      })
+  })
 }
 
   render() {
@@ -241,9 +290,13 @@ class Expenses extends React.Component {
               <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
               <label>Amount</label>
               <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange}/>
+
             </div>
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
           </form>
+          {/* {
+            this.state.name
+          } */}
         </div>
 
         {/* ***************** 
@@ -261,11 +314,15 @@ class Expenses extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Tmobile</th>
-                <td>$120</td>
-                <td><button>DELETE</button></td>
-              </tr>
+              {this.state.expenses.map((item,index) => {
+                return (
+                    <tr>
+                        <td> {item.name} </td>
+                        <td>{item.amount}</td>
+                        <td><button onClick={() => this.deleteExpense(amount._id, index, name)}>DELETE</button></td>
+                    </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
