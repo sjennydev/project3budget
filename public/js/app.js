@@ -52,12 +52,14 @@ class Income extends React.Component {
 
 
 class Savings extends React.Component {
-  // constructor(props){
-  //   super(props);
-  // }
+  constructor(props){
+    super(props);
+  }
   state = {
     income: [],
-    amount: ''
+    amount: '',
+    savings: 0,
+    name: name
   };
     componentDidMount() {
     fetch('/income')
@@ -80,6 +82,7 @@ class Savings extends React.Component {
         })
     })
   }
+  
   render() {
     return (
       <div className='row' >
@@ -98,7 +101,8 @@ class Savings extends React.Component {
         </div>
         <div className='col border my-3 p-3'>
           <h3>Amount Left to Budget</h3>
-          <p>income - (expense.amount + bill.amount)</p>
+          <p>${this.state.savings}</p>
+          <p>${this.props.name}</p>
         </div>
       </div>
     )
@@ -106,60 +110,14 @@ class Savings extends React.Component {
 }
 
 class Bills extends React.Component {
+  constructor(props){
+    super(props);
+  }
   state = {
     bills: [],
     name: '',
-    amount: '',
-    isPaid: false
+    amount: ''
   }
-
-  handleChange = (event) => {
-    this.setState({ [event.target.id]: event.target.value })
-  }
-  handleSubmit = (event) => {
-    event.preventDefault()
-    fetch('/bills', {
-        body: JSON.stringify({
-            amount: this.state.amount,
-            name: this.state.name
-        }),
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-    }).then(createdBills => {
-        return createdBills.json();
-    }).then(jsonedBills => {
-        this.setState({
-            name: '',
-            amount: '',
-            bills: [jsonedBills, ...this.state.bills]
-        })
-    }).catch(error => console.log(error));
-}
-componentDidMount() {
-  fetch('/bills')
-      .then(response => response.json())
-      .then(bills =>
-          this.setState({
-              bills: bills
-          })
-      );
-}
-deleteBill = (id, index) => {
-  fetch('bills/' + id, {
-      method: "DELETE"
-  }).then(data => {
-      this.setState({
-          bills: [
-              ...this.state.bills.slice(0, index),
-              ...this.state.bills.slice(index + 1)
-          ]
-      })
-  })
-}
-
   render() {
     return (
       <div className='col'>
@@ -169,15 +127,14 @@ deleteBill = (id, index) => {
         ****************/}
 
         <div className="border my-3 p-3">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.props.handleBillSubmit}>
             <div className="form-group">
               <h3 className='text-center'>Bills</h3>
               <label>Name</label>
-              <input className="form-control" type='text' id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} /><br />
+              <input className="form-control" type='text' id="name" placeholder="name" value={this.props.name} onChange={this.props.handleBillChange} /><br />
               <label>Amount</label>
-              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.state.amount} onChange={this.handleChange} />
+              <input className="form-control" type='text' id="amount" placeholder="amount" value={this.props.amount} onChange={this.props.handleBillChange} />
             </div>
-
             <button type="submit" className="btn btn-primary mb-2">Submit</button>
           </form>
         </div>
@@ -199,13 +156,13 @@ deleteBill = (id, index) => {
               </tr>
             </thead>
             <tbody>
-            {this.state.bills.map((item,index) => {
+            {this.props.bills.map((item,index) => {
                 return (
                     <tr>
                         <td> {item.name} </td>
                         <td>{item.amount}</td>
                         <td>Paid</td>
-                        <td><button onClick={() => this.deleteBill(item._id, index)}>DELETE</button></td>
+                        <td><button onClick={() => this.props.deleteBill(item._id, index)}>DELETE</button></td>
                     </tr>
                 )
               })}
@@ -336,18 +293,68 @@ deleteExpense = (id, index) => {
 
 class App extends React.Component {
   state = {
-    income: 5903.54
-  };
+    bills: [],
+    name: '',
+    amount: '',
+    isPaid: false
+  }
+
+  handleBillChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  handleBillSubmit = (event) => {
+    event.preventDefault()
+    fetch('/bills', {
+        body: JSON.stringify({
+            amount: this.state.amount,
+            name: this.state.name
+        }),
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+    }).then(createdBills => {
+        return createdBills.json();
+    }).then(jsonedBills => {
+        this.setState({
+            name: '',
+            amount: '',
+            bills: [jsonedBills, ...this.state.bills]
+        })
+    }).catch(error => console.log(error));
+}
+componentDidMount() {
+  fetch('/bills')
+      .then(response => response.json())
+      .then(bills =>
+          this.setState({
+              bills: bills
+          })
+      );
+}
+deleteBill = (id, index) => {
+  fetch('bills/' + id, {
+      method: "DELETE"
+  }).then(data => {
+      this.setState({
+          bills: [
+              ...this.state.bills.slice(0, index),
+              ...this.state.bills.slice(index + 1)
+          ]
+      })
+  })
+}
   render() {
     return (
       <div>
         <h1 className="text-center">Monthly Budget App</h1>
         <div className='container-app border'>
 
-          <Income income={this.state.income}/>
-          <Savings income={this.state.income}/>
+          <Income />
+          <Savings componentDidMount={this.componentDidMount} bills={this.state.bills} deleteBill={this.deleteBill} handleBillSubmit={this.handleBillSubmit} handleBillChange={this.handleBillChange} />
           <div className='row'>
-            <Bills income={this.state.income} />
+            <Bills bills={this.state.bills} deleteBill={this.deleteBill} handleBillSubmit={this.handleBillSubmit} handleBillChange={this.handleBillChange}/>
             <Expenses income={this.state.income}/>
           </div>
 
