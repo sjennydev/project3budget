@@ -97,7 +97,7 @@ class Savings extends React.Component {
           </h4>
         </div>
         <div className='col border my-3 p-3'>
-          <h3>Amount Left to Budget</h3>
+          <h3>Money Remaining</h3>
           <p>income - (expense.amount + bill.amount)</p>
         </div>
       </div>
